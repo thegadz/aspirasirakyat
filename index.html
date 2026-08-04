@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AspirasiRakyat.co - Platform independen menyuarakan aspirasi rakyat Indonesia.">
+    <title>AspirasiRakyat.co - Indonesia Merdeka</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --red: #d63031;
+            --dark-red: #b22222;
+            --white: #ffffff;
+            --bg: #f4f6f9;
+            --card: #ffffff;
+            --text: #2d3436;
+            --muted: #636e72;
+            --border: #edf2f7;
+            --shadow: 0 10px 30px rgba(0,0,0,0.07);
+            --radius: 16px;
+            --sidebar: 250px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* ========== PAGE SYSTEM ========== */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* ========== SHARED NAVBAR ========== */
+        nav.topbar {
+            background: var(--white);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--red);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo sub {
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.8rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover { color: var(--red); }
+
+        .btn-pill {
+            background: var(--red);
+            color: var(--white) !important;
+            padding: 0.55rem 1.3rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(214,48,49,0.25);
+            transition: all 0.3s !important;
+        }
+
+        .btn-pill:hover {
+            background: var(--dark-red) !important;
+            transform: translateY(-2px);
+        }
+
+        /* ========== LANDING PAGE ========== */
+        .hero {
+            background: linear-gradient(135deg, rgba(214,48,49,0.96), rgba(178,34,34,0.92)),
+                        url('https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&q=80') center/cover;
+            color: var(--white);
+            padding: 110px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.2rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.92;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 30px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            border: none;
+        }
+
+        .btn-white { background: var(--white); color: var(--red); }
+        .btn-white:hover { background: #f0f0f0; transform: translateY(-3px); box-shadow: 0 5px 18px rgba(0,0,0,0.18); }
+        .btn-border { border: 2px solid var(--white); color: var(--white); background: transparent; }
+        .btn-border:hover { background: var(--white); color: var(--red); transform: translateY(-3px); }
+
+        /* Features */
+        .features {
+            max-width: 1200px;
+            margin: -50px auto 80px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .feat-card {
+            background: var(--white);
+            padding: 38px 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feat-card:hover { transform: translateY(-10px); }
+
+        .feat-icon {
+            width: 68px; height: 68px;
+            background: rgba(214,48,49,0.1);
+            color: var(--red);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.7rem;
+            margin: 0 auto 18px;
+        }
+
+        .feat-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+        .feat-card p { color: var(--muted); font-size: 0.92rem; }
+
+        /* Quote */
+        .quote-section {
+            background: var(--white);
+            padding: 80px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .quote-wrap { max-width: 800px; margin: 0 auto; }
+        .quote-wrap i { font-size: 2.5rem; color: var(--red); opacity: 0.4; margin-bottom: 18px; }
+        .quote-text { font-size: 1.45rem; font-weight: 600; font-style: italic; margin-bottom: 14px; }
+        .quote-author { color: var(--red); font-weight: 700; letter-spacing: 1px; }
+
+        /* ========== VOTING PAGE ========== */
+        .page-wrap {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .page-title h2 { font-size: 2rem; }
+        .page-title p { color: var(--muted); margin-top: 6px; }
+
+        .voting-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 30px;
+        }
+
+        .vote-panel, .chart-panel {
+            background: var(--white);
+            padding: 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .vote-panel h4, .chart-panel h4 {
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: var(--text);
+        }
+
+        .vote-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .vote-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 14px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .vote-btn:hover { background: var(--dark-red); transform: scale(1.03); }
+        .vote-btn:active { transform: scale(0.97); }
+
+        .total-badge {
+            margin-top: 20px;
+            background: #f1f3f5;
+            padding: 12px 18px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .total-badge span:last-child { color: var(--red); font-size: 1.2rem; }
+
+        .chart-panel canvas { max-height: 360px; }
+
+        .breakdown {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+        }
+
+        /* ========== ADMIN DASHBOARD ========== */
+        .admin-layout {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar);
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            padding: 24px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+
+        .sidebar-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            padding: 8px 14px 4px;
+            font-weight: 600;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background: rgba(214,48,49,0.08);
+            color: var(--red);
+        }
+
+        /* Admin Main */
+        .admin-main {
+            flex: 1;
+            padding: 30px;
+            overflow-x: hidden;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .admin-header h2 { font-size: 1.5rem; }
+
+        .avatar {
+            width: 40px; height: 40px;
+            background: var(--red);
+            color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem;
+        }
+
+        /* Stat Cards */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 22px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-card .label { font-size: 0.8rem; color: var(--muted); margin-bottom: 5px; }
+        .stat-card .num { font-size: 1.7rem; font-weight: 700; }
+        .stat-card .icon {
+            width: 50px; height: 50px;
+            background: rgba(214,48,49,0.08);
+            color: var(--red);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        /* Charts */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 22px;
+            margin-bottom: 28px;
+        }
+
+        .chart-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .chart-card h3 { font-size: 1rem; margin-bottom: 18px; }
+
+        /* Table */
+        .table-card {
+            background: var(--white);
+            padding: 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .table-card h3 { font-size: 1rem; margin-bottom: 18px; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: 0.88rem; text-align: left; }
+        th { color: var(--muted); font-weight: 600; background: #fafbfc; }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-ok { background: #e6f4ea; color: #1e8e3e; }
+        .badge-pend { background: #fff3cd; color: #856404; }
+
+        /* ========== FOOTER ========== */
+        .site-footer {
+            background: #1e272e;
+            color: white;
+            padding: 45px 20px 22px;
+            text-align: center;
+        }
+
+        .site-footer h3 { font-size: 1.3rem; margin-bottom: 8px; }
+        .site-footer p { color: #b2bec3; font-size: 0.9rem; margin-bottom: 18px; }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .socials a {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .socials a:hover { background: var(--red); }
+
+        .footer-copy {
+            font-size: 0.82rem;
+            color: #636e72;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 18px;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 900px) {
+            .voting-layout { grid-template-columns: 1fr; }
+            .charts-row { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+        }
+
+        @media (max-width: 680px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======= SHARED NAVBAR ======= -->
+    <nav class="topbar" id="topbar">
+        <div class="navbar-inner">
+            <div class="logo" onclick="showPage('home')">
+                <i class="fa-solid fa-flag"></i> AspirasiRakyat <sub>.co</sub>
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="showPage('home')">Beranda</a></li>
+                <li><a onclick="showPage('home'); scrollTo('#prinsip')">Prinsip</a></li>
+                <li><a onclick="showPage('voting')">Voting Suara</a></li>
+                <li><a onclick="showPage('admin')"><i class="fa-solid fa-chart-pie"></i> Admin</a></li>
+                <li><a onclick="showPage('voting')" class="btn-pill">Suaraku</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ======= PAGE: HOME ======= -->
+    <div id="page-home" class="page active">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div style="max-width:850px; margin:0 auto;">
+                <h1>Selamat Datang Di Indonesia Merdeka</h1>
+                <p>Bebas berpendapat, bebas bersuara — demi rakyat, oleh rakyat, untuk rakyat Indonesia merdeka.</p>
+                <div class="hero-btns">
+                    <button class="btn btn-white" onclick="showPage('home'); document.getElementById('prinsip').scrollIntoView({behavior:'smooth'})">Pelajari Lebih Lanjut</button>
+                    <button class="btn btn-border" onclick="showPage('voting')">Sampaikan Suara</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Cards -->
+        <section class="features" id="prinsip">
+            <div class="grid-3">
+                <div class="feat-card">
+                    <div class="feat-icon"><i class="fa-solid fa-comments"></i></div>
+                    <h3>Bebas Berpendapat</h3>
+                    <p>Mewadahi setiap pemikiran positif dan konstruktif untuk kemajuan serta kesejahteraan bersama.</p>
+                </div>
+                <div class="feat-card">
+                    <div class="feat-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                    <h3>Bebas Bersuara</h3>
+                    <p>Memberikan ruang terbuka yang aman dan adil bagi setiap warga negara untuk menyuarakan kebenaran.</p>
+                </div>
+                <div class="feat-card">
+                    <div class="feat-icon"><i class="fa-solid fa-hands-holding-circle"></i></div>
+                    <h3>Demi Rakyat</h3>
+                    <p>Setiap gagasan, karya, dan perjuangan difokuskan sepenuhnya untuk kejayaan seluruh rakyat Indonesia.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quote -->
+        <section class="quote-section">
+            <div class="quote-wrap">
+                <i class="fa-solid fa-quote-left"></i>
+                <div class="quote-text">"Kemerdekaan hanyalah diperoleh dan dimiliki oleh bangsa yang jiwanya berkobar-kobar dengan tekad 'Merdeka atau Mati'."</div>
+                <div class="quote-author">— IR. SOEKARNO</div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div style="max-width:1200px; margin:0 auto;">
+                <h3>AspirasiRakyat.co</h3>
+                <p>Platform independen menyuarakan aspirasi rakyat Indonesia.</p>
+                <div class="socials">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                </div>
+                <div class="footer-copy">&copy; 2026 AspirasiRakyat.co — Indonesia Merdeka. All rights reserved.</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ======= PAGE: VOTING ======= -->
+    <div id="page-voting" class="page">
+        <div class="page-wrap">
+            <div class="page-title">
+                <h2>Voting Aspirasi Rakyat</h2>
+                <p>Pilih prioritas utama yang ingin Anda perjuangkan demi kemajuan bangsa</p>
+            </div>
+
+            <div class="voting-layout">
+                <!-- Left: Buttons -->
+                <div class="vote-panel">
+                    <h4><i class="fa-solid fa-hand-pointer" style="color:var(--red)"></i> Klik Topik Untuk Memilih:</h4>
+                    <div class="vote-buttons" id="vote-buttons"></div>
+                    <div class="total-badge">
+                        <span>Total Suara Terkumpul</span>
+                        <span id="total-count">0</span>
+                    </div>
+                </div>
+
+                <!-- Right: Chart + Breakdown -->
+                <div class="chart-panel">
+                    <h4><i class="fa-solid fa-chart-bar" style="color:var(--red)"></i> Hasil Real-Time:</h4>
+                    <canvas id="voteChart" style="max-height:320px;"></canvas>
+                    <div class="breakdown" id="breakdown"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======= PAGE: ADMIN ======= -->
+    <div id="page-admin" class="page">
+        <div class="admin-layout">
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-label">Menu</div>
+                <a class="active"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                <a onclick="showPage('voting')"><i class="fa-solid fa-vote-yea"></i> Voting Suara</a>
+                <a onclick="showPage('home')"><i class="fa-solid fa-house"></i> Halaman Utama</a>
+                <div class="sidebar-label" style="margin-top:16px">Lainnya</div>
+                <a><i class="fa-solid fa-users"></i> Pengguna</a>
+                <a><i class="fa-solid fa-gear"></i> Pengaturan</a>
+            </aside>
+
+            <!-- Main -->
+            <div class="admin-main">
+                <div class="admin-header">
+                    <div>
+                        <h2>Dashboard Admin</h2>
+                        <p style="color:var(--muted);font-size:0.9rem;">Statistik Aspirasi Rakyat Indonesia</p>
+                    </div>
+                    <div class="avatar">AR</div>
+                </div>
+
+                <!-- Stat Cards -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div>
+                            <div class="label">Total Suara Masuk</div>
+                            <div class="num" id="admin-total">0</div>
+                        </div>
+                        <div class="icon"><i class="fa-solid fa-check-to-slot"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div>
+                            <div class="label">Aspirasi Aktif</div>
+                            <div class="num">1,280</div>
+                        </div>
+                        <div class="icon"><i class="fa-solid fa-comment-dots"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div>
+                            <div class="label">Partisipasi Rakyat</div>
+                            <div class="num">88.4%</div>
+                        </div>
+                        <div class="icon"><i class="fa-solid fa-users-line"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div>
+                            <div class="label">Tingkat Kepuasan</div>
+                            <div class="num">94.2%</div>
+                        </div>
+                        <div class="icon"><i class="fa-solid fa-face-smile"></i></div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <h3>Tren Partisipasi (2026)</h3>
+                        <canvas id="adminLine" style="max-height:220px;"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Kategori Pendapat</h3>
+                        <canvas id="adminPie" style="max-height:220px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="table-card">
+                    <h3>Aspirasi Rakyat Terbaru</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama Warga</th>
+                                <th>Kategori</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ASP-001</td>
+                                <td>Budi Santoso</td>
+                                <td>Fasilitas Publik</td>
+                                <td>04 Agu 2026</td>
+                                <td><span class="badge badge-ok">Selesai</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ASP-002</td>
+                                <td>Siti Rahma</td>
+                                <td>Pendidikan</td>
+                                <td>04 Agu 2026</td>
+                                <td><span class="badge badge-pend">Diproses</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ASP-003</td>
+                                <td>Ahmad Fauzi</td>
+                                <td>Infrastruktur Jalan</td>
+                                <td>03 Agu 2026</td>
+                                <td><span class="badge badge-ok">Selesai</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ASP-004</td>
+                                <td>Dewi Lestari</td>
+                                <td>Internet Desa</td>
+                                <td>03 Agu 2026</td>
+                                <td><span class="badge badge-pend">Diproses</span></td>
+                            </tr>
+                            <tr>
+                                <td>#ASP-005</td>
+                                <td>Hendra Gunawan</td>
+                                <td>Bantuan UMKM</td>
+                                <td>02 Agu 2026</td>
+                                <td><span class="badge badge-ok">Selesai</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ======= JAVASCRIPT ======= -->
+    <script>
+        // ---------- PAGE NAVIGATION ----------
+        function showPage(name) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + name).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (name === 'admin') initAdminCharts();
+        }
+
+        // ---------- VOTING DATA ----------
+        const topics = [
+            "Infrastruktur Jalan", "Fasilitas Kesehatan", "Pendidikan Gratis",
+            "Transportasi Publik", "Internet Desa", "Kebersihan & Sampah",
+            "Taman Kota", "Penerangan Jalan", "Bantuan UMKM", "Keamanan Perumahan"
+        ];
+
+        const colors = [
+            '#d63031','#0984e3','#00b894','#fdcb6e','#6c5ce7',
+            '#e17055','#fd79a8','#00cec9','#a29bfe','#ff7675'
+        ];
+
+        let votes = [12, 18, 25, 9, 14, 8, 5, 11, 20, 16];
+        let voteChartInstance = null;
+
+        // ---------- INIT VOTING ----------
+        function initVoting() {
+            const btnContainer = document.getElementById('vote-buttons');
+            topics.forEach((t, i) => {
+                const b = document.createElement('button');
+                b.className = 'vote-btn';
+                b.innerHTML = `<i class="fa-solid fa-hand-point-right"></i> ${t}`;
+                b.onclick = () => castVote(i);
+                btnContainer.appendChild(b);
+            });
+
+            const ctx = document.getElementById('voteChart').getContext('2d');
+            voteChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: topics,
+                    datasets: [{
+                        label: 'Suara',
+                        data: votes,
+                        backgroundColor: colors,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                }
+            });
+
+            renderBreakdown();
+        }
+
+        function castVote(i) {
+            votes[i]++;
+            voteChartInstance.data.datasets[0].data = votes;
+            voteChartInstance.update('active');
+            renderBreakdown();
+            updateAdminTotal();
+        }
+
+        function renderBreakdown() {
+            const total = votes.reduce((a, b) => a + b, 0);
+            document.getElementById('total-count').textContent = total.toLocaleString();
+            const box = document.getElementById('breakdown');
+            box.innerHTML = '';
+            topics.forEach((t, i) => {
+                const pct = total === 0 ? '0.0' : ((votes[i] / total) * 100).toFixed(1);
+                const row = document.createElement('div');
+                row.className = 'breakdown-row';
+                row.innerHTML = `<span>${t}</span><strong style="color:var(--red)">${votes[i]} (${pct}%)</strong>`;
+                box.appendChild(row);
+            });
+        }
+
+        // ---------- ADMIN CHARTS ----------
+        let adminChartsInit = false;
+
+        function updateAdminTotal() {
+            const total = votes.reduce((a, b) => a + b, 0);
+            const el = document.getElementById('admin-total');
+            if (el) el.textContent = total.toLocaleString();
+        }
+
+        function initAdminCharts() {
+            if (adminChartsInit) return;
+            adminChartsInit = true;
+
+            // Line Chart
+            new Chart(document.getElementById('adminLine').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu'],
+                    datasets: [{
+                        label: 'Suara',
+                        data: [1200, 1900, 3000, 2500, 4200, 5100, 6800, 8400],
+                        borderColor: '#d63031',
+                        backgroundColor: 'rgba(214,48,49,0.08)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#d63031'
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false } } }
+            });
+
+            // Pie Chart
+            new Chart(document.getElementById('adminPie').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Infrastruktur','Pendidikan','Kesehatan','Lainnya'],
+                    datasets: [{
+                        data: [40, 25, 20, 15],
+                        backgroundColor: ['#d63031','#0984e3','#00b894','#fdcb6e'],
+                        borderWidth: 2
+                    }]
+                },
+                options: { responsive: true, cutout: '65%' }
+            });
+
+            updateAdminTotal();
+        }
+
+        // ---------- BOOT ----------
+        window.onload = function() {
+            initVoting();
+        };
+    </script>
+</body>
+</html>
