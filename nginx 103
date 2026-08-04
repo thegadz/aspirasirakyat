@@ -1,4 +1,4 @@
-# --- BLOCK 1: Redirect dari IP langsung ke Domain ---
+{{{{# --- BLOCK 1: Redirect dari IP langsung ke Domain ---
 server {
     listen 80;
     server_name 103.83.6.21;
